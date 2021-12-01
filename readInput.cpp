@@ -22,7 +22,5 @@ int main() {
             graph[startPage] = adj;
         }
     }
-    std::cout << graph.size() << std::endl;
-
 }
 
