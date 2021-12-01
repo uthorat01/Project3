@@ -10,8 +10,7 @@ int main() {
     std::map<std::string,std::list<std::string>> graph;
     std::string line,page,input;
     std::list<std::string> adj;
-    if(fin.is_open()) {
-        std::cout << "hello" << std::endl;
+    if(fin.is_open()) {;
         while (getline(fin, line)) {
             adj.clear();
             std::stringstream s(line);
@@ -23,6 +22,7 @@ int main() {
             graph[startPage] = adj;
         }
     }
-
+    std::cout << graph.size() << std::endl;
 
 }
+
