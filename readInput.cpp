@@ -6,7 +6,7 @@
 
 
 int main() {
-    std::ifstream fin("data/sampledata.csv");
+    std::ifstream fin("filtered.csv");
     std::map<std::string,std::list<std::string>> graph;
     std::string line,page,input;
     std::list<std::string> adj;
