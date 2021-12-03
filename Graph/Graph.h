@@ -17,5 +17,6 @@ class Graph {
     std::map<std::string, std::list<std::string>> getGraph();
     bool DLS(std::string src, std::string target, int limit);
     int IDDFS(std::string src, std::string target, int max_depth);
+    int BFS(std::string src, std::string target);
 };
 // ===================================== End Graph Definition ===================================== //
