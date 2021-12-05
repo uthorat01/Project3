@@ -1,79 +1,142 @@
-from subprocess import Popen, PIPE
+import wx
 
-program_path = "/home/user/sum_prog"
-p = Popen([program_path], stdout=PIPE, stdin=PIPE)
 
 class MyApp(wx.App):
     def __init__(self):
-        super().__init__()
-
-    def OnInit(self):
-        frame = MyFrame(parent=None, title="Project 3")
+        super().__init__(clearSigInt=True)
+        
+        # init frame
+        self.InitFrame()
+    
+    def InitFrame(self):
+        frame = MyFrame()
         frame.Show()
-
-        return True
 
 
 class MyFrame(wx.Frame):
-    # subclass of wx.Window; Frame is a top level window
-    # A frame is a window whose size and position can (usually) be changed by the user.
-    # Usually represents the first/main window a user will see
-    def __init__(self, parent, title):
-        super().__init__(parent=parent, title=title, pos = (100, 100))
-
+    def __init__(self, title="Project 3", pos=(100,100)):
+        super().__init__(None, title=title, pos=pos)
+        # initialize the frame's contents
         self.OnInit()
 
     def OnInit(self):
-        panel = MyPanel(self)
+        self.panel = MyForm(self)
+        self.Fit()
 
+class MyForm(wx.Panel):
 
-class MyPanel(wx.Panel):
-    # A panel is a window on which controls are placed. (e.g. buttons and text boxes)
-    # wx.Panel class is usually put inside a wxFrame object. This class is also inherited from wxWindow class.
-    def __init__(self,parent):
+    def __init__(self, parent):
         super().__init__(parent=parent)
-        self._dont_show = False # for message dialog box
-        
-        # add a hello message to the panel
-        welcomeText = wx.StaticText(self, label="How much later till alligator", pos=(20,20))
 
-        # add a text box
-        self._text = wx.TextCtrl(parent= self, value = 'ENTER SOURCE HERE', pos = (20,60), size=(300, 50))
+        # Add a panel so it looks correct on all platforms
 
-        # add a button to bring up the dialog box
-        self._button = wx.Button(parent=self, label='Submit', pos = (20, 120))
-        self._button.Bind(wx.EVT_BUTTON, self.onSubmit) # bind action to button
+        # art provider provides basic art https://wxpython.org/Phoenix/docs/html/wx.ArtProvider.html
+        #bmp = wx.ArtProvider.GetBitmap(id=wx.ART_INFORMATION, client=wx.ART_OTHER, size=(16, 16))
+        #image = wx.Image('Gator.png', wx.BITMAP_TYPE_ANY)
+        png = wx.Image('Gator.png', wx.BITMAP_TYPE_ANY).ConvertToBitmap()
+        gatorIco = wx.StaticBitmap(self, -1, png, size = (1,1))
+        gatorIco2 = wx.StaticBitmap(self, -1, png, size = (1,1))
+        #titleIco = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(image))
+        #titleIco = wx.StaticBitmap(self, wx.ID_ANY, bmp)
+        title = wx.StaticText(self, wx.ID_ANY, 'How Much Later Till Alligator?')
+
+        #inputOneIco = wx.StaticBitmap(self, wx.ID_ANY, bmp)
+        labelOne = wx.StaticText(self, wx.ID_ANY, 'Source')
+        self.inputTxtOne = wx.TextCtrl(self, wx.ID_ANY)
+
+        #inputTwoIco = wx.StaticBitmap(self, wx.ID_ANY, bmp)
+        labelTwo = wx.StaticText(self, wx.ID_ANY, 'Target')
+        # wx.SpinCtrl combines wx.TextCtrl and wx.SpinButton in one control.
+        self.inputTxtTwo = wx.TextCtrl(self, wx.ID_ANY)
+
+        okBtn = wx.Button(self, wx.ID_ANY, 'OK')
+        self.Bind(wx.EVT_BUTTON, self.onOK, okBtn)
+
+        self.distanceLabel = wx.StaticText(self, wx.ID_ANY, 'Distance: ?')
+        self.IDDFSRuntime = wx.StaticText(self, wx.ID_ANY, 'IDDFS Runtime: ?')
+        self.BFSLabel = wx.StaticText(self, wx.ID_ANY, 'BFS Runtime: ?')
+        self.path = wx.StaticText(self, wx.ID_ANY, 'Path:')
+
+        self.mainSizer = wx.BoxSizer(wx.VERTICAL)
+        titleSizer = wx.BoxSizer(wx.HORIZONTAL)
+        inputOneSizer = wx.BoxSizer(wx.HORIZONTAL)
+        inputTwoSizer = wx.BoxSizer(wx.HORIZONTAL)
+        submitBtnSizer = wx.BoxSizer(wx.HORIZONTAL)
+        distSizer = wx.BoxSizer(wx.HORIZONTAL)
+        IDDFSSizer = wx.BoxSizer(wx.HORIZONTAL)
+        BFSSizer = wx.BoxSizer(wx.HORIZONTAL)
+        pathSizer = wx.BoxSizer(wx.HORIZONTAL)
+
+        titleSizer.Add(gatorIco, 0, wx.ALL, 5)
+        titleSizer.Add(title, 0, wx.ALL, 5)
+        titleSizer.Add(gatorIco2, 0, wx.ALL, 5)
+
+        #inputOneSizer.Add(gatorIco, 0, wx.ALL, 5)
+        inputOneSizer.Add(labelOne, 0, wx.ALL, 5)
+
+        inputOneSizer.Add(self.inputTxtOne, 1, wx.ALL|wx.EXPAND, 5)
+
+        #inputTwoSizer.Add(gatorIco, 0, wx.ALL, 5)
+        inputTwoSizer.Add(labelTwo, 0, wx.ALL, 5)
+        inputTwoSizer.Add(self.inputTxtTwo, 1, wx.ALL|wx.EXPAND, 5)
+
+        submitBtnSizer.Add(okBtn, 0, wx.ALL, 5)
+
+        distSizer.Add(self.distanceLabel, 0, wx.ALL, 5)
+        IDDFSSizer.Add(self.IDDFSRuntime, 0, wx.ALL, 5)
+        BFSSizer.Add(self.BFSLabel, 0, wx.ALL, 5)
+        pathSizer.Add(self.path, wx.ALL, 5)
+
+        self.mainSizer.Add(titleSizer, 0, wx.CENTER)
+        self.mainSizer.Add(wx.StaticLine(self,), 0, wx.ALL|wx.EXPAND, 5)
+        self.mainSizer.Add(inputOneSizer, 0, wx.ALL|wx.EXPAND, 5)
+        self.mainSizer.Add(inputTwoSizer, 0, wx.ALL|wx.EXPAND, 5)
+        self.mainSizer.Add(wx.StaticLine(self), 0, wx.ALL|wx.EXPAND, 5)
+        self.mainSizer.Add(submitBtnSizer, 0, wx.ALL|wx.CENTER, 5)
+        self.mainSizer.Add(wx.StaticLine(self), 0, wx.ALL|wx.EXPAND, 5)
+        self.mainSizer.Add(distSizer, 0, wx.ALL|wx.CENTER, 5)
+        self.mainSizer.Add(BFSSizer, 0, wx.ALL|wx.CENTER, 5)
+        self.mainSizer.Add(IDDFSSizer, 0, wx.ALL|wx.CENTER, 5)
+        self.mainSizer.Add(wx.StaticLine(self), 0, wx.ALL|wx.EXPAND, 5)
+        self.mainSizer.Add(pathSizer, 0, wx.ALL|wx.CENTER, 5)
+
+        self.SetSizer(self.mainSizer)
+        self.mainSizer.Fit(self)
+        self.Layout()
 
 
-    def ShowDialog(self):
-        # pop up a message dialog window on submit!
-        if self._dont_show:
-            return None
+    def onOK(self, event):
+        # Do something
+        print('onOK handler')
+        data = self.getData()
+        self.distanceLabel.SetLabel(data[1])
+        self.IDDFSRuntime.SetLabel("1000 microseconds")
+        self.BFSLabel.SetLabel(data[0])
+        self.path.SetLabel(data[0] + "->" + data[1])
+        self.SetSizer(self.mainSizer)
+        self.mainSizer.Fit(self)
+        self.Layout()
+        print(data)
 
-        dlg = wx.RichMessageDialog(parent=None, 
-                message= "Are you ready to learn wxPython?",
-                caption="wxPythonStuff",
-                style=wx.YES_NO|wx.CANCEL|wx.CENTRE)
-        dlg.ShowCheckBox("Don't show this again")
-        dlg.ShowModal() # shows the dialog
+    def onCancel(self, event):
+        self.closeProgram()
 
-        if dlg.IsCheckBoxChecked():
-            print("Is check box checked?", dlg.IsCheckBoxChecked())
-            self._dont_show=True
-    
+    def closeProgram(self):
+        # self.GetParent() will get the frame which
+        # has the .Close() method to close the program
+        self.GetParent().Close()
 
-    def onSubmit(self, event):
-        # stuff for the submit button to do
-        print(self._text.GetValue())
-        p.stdin.write(self._text.GetValue())
-        result = p.stdout.readline().strip()
-        time = p.stdout.readline().strip()
-        print(result)
-        print(time)
-        self.ShowDialog()
-        
+    def getData(self):
+        '''
+        this here will procure data from all buttons
+        '''
+        data = []
+        data.append(self.inputTxtOne.GetValue())
+        data.append(self.inputTxtTwo.GetValue())
+        return data
 
-if __name__ == "__main__":
+# Run the program
+if __name__ == '__main__':
     app = MyApp()
-    frame = MyFrame(parent=None, title="This is a frame")
     app.MainLoop()
+
