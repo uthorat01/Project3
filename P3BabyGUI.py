@@ -25,28 +25,21 @@ class MyFrame(wx.Frame):
 
 class MyForm(wx.Panel):
 
-    def __init__(self, parent):
+    def __init__(self, parent ):
         super().__init__(parent=parent)
 
-        # Add a panel so it looks correct on all platforms
-
-        # art provider provides basic art https://wxpython.org/Phoenix/docs/html/wx.ArtProvider.html
-        #bmp = wx.ArtProvider.GetBitmap(id=wx.ART_INFORMATION, client=wx.ART_OTHER, size=(16, 16))
-        #image = wx.Image('Gator.png', wx.BITMAP_TYPE_ANY)
         png = wx.Image('Gator.png', wx.BITMAP_TYPE_ANY).ConvertToBitmap()
-        gatorIco = wx.StaticBitmap(self, -1, png, size = (1,1))
-        gatorIco2 = wx.StaticBitmap(self, -1, png, size = (1,1))
-        #titleIco = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(image))
-        #titleIco = wx.StaticBitmap(self, wx.ID_ANY, bmp)
+        gatorIco = wx.StaticBitmap(self, -1, png)
+        gatorIco2 = wx.StaticBitmap(self, -1, png)
         title = wx.StaticText(self, wx.ID_ANY, 'How Much Later Till Alligator?')
 
-        #inputOneIco = wx.StaticBitmap(self, wx.ID_ANY, bmp)
+        font = wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
+        title.SetFont(font)
+
         labelOne = wx.StaticText(self, wx.ID_ANY, 'Source')
         self.inputTxtOne = wx.TextCtrl(self, wx.ID_ANY)
 
-        #inputTwoIco = wx.StaticBitmap(self, wx.ID_ANY, bmp)
         labelTwo = wx.StaticText(self, wx.ID_ANY, 'Target')
-        # wx.SpinCtrl combines wx.TextCtrl and wx.SpinButton in one control.
         self.inputTxtTwo = wx.TextCtrl(self, wx.ID_ANY)
 
         okBtn = wx.Button(self, wx.ID_ANY, 'OK')
@@ -85,7 +78,7 @@ class MyForm(wx.Panel):
         distSizer.Add(self.distanceLabel, 0, wx.ALL, 5)
         IDDFSSizer.Add(self.IDDFSRuntime, 0, wx.ALL, 5)
         BFSSizer.Add(self.BFSLabel, 0, wx.ALL, 5)
-        pathSizer.Add(self.path, wx.ALL, 5)
+        pathSizer.Add(self.path, wx.CENTER, 5)
 
         self.mainSizer.Add(titleSizer, 0, wx.CENTER)
         self.mainSizer.Add(wx.StaticLine(self,), 0, wx.ALL|wx.EXPAND, 5)
@@ -100,8 +93,8 @@ class MyForm(wx.Panel):
         self.mainSizer.Add(wx.StaticLine(self), 0, wx.ALL|wx.EXPAND, 5)
         self.mainSizer.Add(pathSizer, 0, wx.ALL|wx.CENTER, 5)
 
-        self.SetSizer(self.mainSizer)
-        self.mainSizer.Fit(self)
+        self.SetSizerAndFit(self.mainSizer)
+        self.SetSize((350,400))
         self.Layout()
 
 
@@ -112,14 +105,11 @@ class MyForm(wx.Panel):
         self.distanceLabel.SetLabel(data[1])
         self.IDDFSRuntime.SetLabel("1000 microseconds")
         self.BFSLabel.SetLabel(data[0])
-        self.path.SetLabel(data[0] + "->" + data[1])
-        self.SetSizer(self.mainSizer)
-        self.mainSizer.Fit(self)
+        self.path.SetLabel(data[0] +  "-> " + data[1] + "animals and more -> zookeeper -> horseshoe -> sleepytime -> find -> path -> animal name-"
+           + "zookeeper -> horseshoe -> sleepytime -> find -> path -> animal name-")
+        self.path.Wrap(325)
         self.Layout()
         print(data)
-
-    def onCancel(self, event):
-        self.closeProgram()
 
     def closeProgram(self):
         # self.GetParent() will get the frame which
