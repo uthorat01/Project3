@@ -31,6 +31,10 @@ class MyForm(wx.Panel):
         png = wx.Image('Gator.png', wx.BITMAP_TYPE_ANY).ConvertToBitmap()
         gatorIco = wx.StaticBitmap(self, -1, png)
         gatorIco2 = wx.StaticBitmap(self, -1, png)
+        gatorIco3= wx.StaticBitmap(self, -1, png)
+        # gatorIco4 = wx.StaticBitmap(self, -1, png)
+        gatorIco5 = wx.StaticBitmap(self, -1, png)
+        # gatorIco6 = wx.StaticBitmap(self, -1, png)
         title = wx.StaticText(self, wx.ID_ANY, 'How Much Later Till Alligator?')
 
         font = wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
@@ -64,14 +68,15 @@ class MyForm(wx.Panel):
         titleSizer.Add(title, 0, wx.ALL, 5)
         titleSizer.Add(gatorIco2, 0, wx.ALL, 5)
 
-        #inputOneSizer.Add(gatorIco, 0, wx.ALL, 5)
+        inputOneSizer.Add(gatorIco3, 0, wx.ALL, 5)
         inputOneSizer.Add(labelOne, 0, wx.ALL, 5)
-
         inputOneSizer.Add(self.inputTxtOne, 1, wx.ALL|wx.EXPAND, 5)
+        
 
-        #inputTwoSizer.Add(gatorIco, 0, wx.ALL, 5)
+        inputTwoSizer.Add(gatorIco5, 0, wx.ALL, 5)
         inputTwoSizer.Add(labelTwo, 0, wx.ALL, 5)
         inputTwoSizer.Add(self.inputTxtTwo, 1, wx.ALL|wx.EXPAND, 5)
+        
 
         submitBtnSizer.Add(okBtn, 0, wx.ALL, 5)
 
