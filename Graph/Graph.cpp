@@ -2,20 +2,20 @@
 
 
 Graph::Graph() {
-  readInput();
+    readInput();
 }
 
 // reads datapoints from CSV file
 void Graph::readInput() {
     std::ifstream fin("data/filtered.csv");
-    std::string line,page,input;
+    std::string line, page, input;
     std::list<std::string> adj;
-    if(fin.is_open()){
+    if (fin.is_open()) {
         while (getline(fin, line)) {
             adj.clear();
             std::stringstream s(line);
             while (getline(s, page, ',')) {
-                adj.push_back(page.substr(page.find_last_of('/')+1));
+                adj.push_back(page.substr(page.find_last_of('/') + 1));
             }
             std::string startPage = adj.front();
             adj.pop_front();
@@ -32,21 +32,20 @@ bool Graph::DLS(std::string src, std::string target, int limit)
 {
     if (src == target)
         return true;
-  
+
     // If reached the maximum depth, stop recursing.
     if (limit <= 0)
         return false;
-  
+
     // Recur for all the vertices adjacent to source vertex
     for (auto i = graph[src].begin(); i != graph[src].end(); ++i)
         if (DLS(*i, target, limit - 1) == true) {
-            std::cout << src << std::endl;
             return true;
         }
-  
-     return false;
+
+    return false;
 }
-  
+
 // IDDFS to search if target is reachable from v.
 // It uses recursive DFSUtil().
 int Graph::IDDFS(std::string src, std::string target, int max_depth)
@@ -62,49 +61,43 @@ int Graph::IDDFS(std::string src, std::string target, int max_depth)
     return INT_MAX;
 }
 
-int Graph::BFS(std::string src, std::string target){
+// from GeeksforGeeks
+int Graph::BFS(std::string src, std::string target) {
     // Mark all the vertices as not visited
-    std::set visited;
-     
+    std::set<std::string> visited;
+
     // Create a queue for BFS
     std::queue<std::string> queue;
     int dist = 0;
-    
+
     // Mark the current node as visited and enqueue it
-    visited.insert(s);
-    queue.push_back(s);
-     
+    visited.insert(src);
+    queue.push(src);
+
     // 'i' will be used to get all adjacent
     // vertices of a vertex
-     
-    while(!queue.empty())
+
+    while (!queue.empty())
     {
         // Dequeue a vertex from queue and print it
-        s = queue.front();
+        std::string s = queue.front();
         queue.pop();
-     
+
+        dist++;
         // Get all adjacent vertices of the dequeued
         // vertex s. If a adjacent has not been visited,
         // then mark it visited and enqueue it
         for (auto i = graph[s].begin(); i != graph[s].end(); ++i)
         {
-            if(*i == target){
+            if (*i == target) {
                 return dist;
             }
-            if (visited.find([*i]) == visited.end())
+            if (visited.find(*i) == visited.end())
             {
-                    visited.insert(*i)
-                    queue.push_back(*i);
+                visited.insert(*i);
+                queue.push(*i);
             }
-
         }
-        dist++;
     }
     return INT_MAX;
 }
-
-
-
-
-
-

@@ -8,6 +8,7 @@ int main() {
 	  std::cin >> node;
 	  std::cin >> target;
 
-	  std::cout << Wikipedia.IDDFS(node, target, 100) << std::endl;
+	  std::cout << Wikipedia.IDDFS(node, target, 100) << " " << Wikipedia.BFS(node, target);
+	  return 0;
   }
 }
