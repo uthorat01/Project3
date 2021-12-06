@@ -62,45 +62,45 @@ int Graph::IDDFS(std::string src, std::string target, int max_depth)
     return INT_MAX;
 }
 
-int BFS(std::string src, std::string target){
+int Graph::BFS(std::string src, std::string target){
     // Mark all the vertices as not visited
-    bool *visited = new bool[V];
-    for(int i = 0; i < V; i++)
-        visited[i] = false;
+    std::set visited;
      
     // Create a queue for BFS
-    list<int> queue;
+    std::queue<std::string> queue;
     int dist = 0;
     
     // Mark the current node as visited and enqueue it
-    visited[s] = true;
+    visited.insert(s);
     queue.push_back(s);
      
     // 'i' will be used to get all adjacent
     // vertices of a vertex
-    list<int>::iterator i;
      
     while(!queue.empty())
     {
         // Dequeue a vertex from queue and print it
         s = queue.front();
-        cout << s << " ";
-        queue.pop_front();
+        queue.pop();
      
         // Get all adjacent vertices of the dequeued
         // vertex s. If a adjacent has not been visited,
         // then mark it visited and enqueue it
-        for (i = adj[s].begin(); i != adj[s].end(); ++i)
+        for (auto i = graph[s].begin(); i != graph[s].end(); ++i)
         {
-            if (!visited[*i])
+            if(*i == target){
+                return dist;
+            }
+            if (visited.find([*i]) == visited.end())
             {
-                    visited[*i] = true;
+                    visited.insert(*i)
                     queue.push_back(*i);
             }
+
         }
         dist++;
     }
-    return dist;
+    return INT_MAX;
 }
 
 
