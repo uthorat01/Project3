@@ -29,7 +29,7 @@ std::map<std::string, std::list<std::string>> Graph::getGraph() {
 }
 
 //from GeeksforGeeks
-bool Graph::DLS(std::string src, std::string target, int limit)
+bool Graph::DLS(std::string src, std::string target, int limit, std::string& path)
 {
     if (src == target)
         return true;
@@ -40,7 +40,8 @@ bool Graph::DLS(std::string src, std::string target, int limit)
 
     // Recur for all the vertices adjacent to source vertex
     for (auto i = graph[src].begin(); i != graph[src].end(); ++i)
-        if (DLS(*i, target, limit - 1) == true) {
+        if (DLS(*i, target, limit - 1, path) == true) {
+            path = *i + " -> " + path;
             return true;
         }
 
@@ -49,17 +50,18 @@ bool Graph::DLS(std::string src, std::string target, int limit)
 
 // IDDFS to search if target is reachable from v.
 // It uses recursive DFSUtil().
-int Graph::IDDFS(std::string src, std::string target)
+std::pair<int, std::string> Graph::IDDFS(std::string src, std::string target)
 {
     // Repeatedly depth-limit search till the
     // maximum depth.
+    std::string path = "";
     for (int i = 0; i <= 1000; i++) {
         int temp = i;
-        if (DLS(src, target, temp) == true)
-            return i;
+        if (DLS(src, target, temp, path) == true)
+            return std::make_pair(i, path);
     }
 
-    return INT_MAX;
+    return std::make_pair(INT_MAX, "");
 }
 
 // from GeeksforGeeks
@@ -101,10 +103,10 @@ int Graph::BFS(std::string src, std::string target) {
     //     }
     // }
     // return INT_MAX;
-    int level = 0;
+    int level = 1;
     std::queue<std::string> queue;
     queue.push(src);
-    while(!queue.isEmpty()){
+    while(!queue.empty()){
         int level_size = queue.size();
         while (level_size--) {
             std::string s = queue.front();
@@ -115,7 +117,7 @@ int Graph::BFS(std::string src, std::string target) {
                 {
                     return level;
                 }
-                queue.push(*i)
+                queue.push(*i);
             }
         }
         level++;
