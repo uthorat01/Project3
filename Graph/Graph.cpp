@@ -7,7 +7,7 @@ Graph::Graph() {
 
 // reads datapoints from CSV file
 void Graph::readInput() {
-    std::ifstream fin("data/filtered.csv");
+    std::ifstream fin("Data/filtered.csv");
     std::string line, page, input;
     std::list<std::string> adj;
     if (fin.is_open()) {
@@ -66,43 +66,6 @@ std::pair<int, std::string> Graph::IDDFS(std::string src, std::string target)
 
 // from GeeksforGeeks
 int Graph::BFS(std::string src, std::string target) {
-    // // Mark all the vertices as not visited
-    // std::set<std::string> visited;
-
-    // // Create a queue for BFS
-    // std::queue<std::string> queue;
-    // int dist = 0;
-
-    // // Mark the current node as visited and enqueue it
-    // visited.insert(src);
-    // queue.push(src);
-
-    // // 'i' will be used to get all adjacent
-    // // vertices of a vertex
-
-    // while (!queue.empty())
-    // {
-    //     // Dequeue a vertex from queue and print it
-    //     std::string s = queue.front();
-    //     queue.pop();
-
-    //     dist++;
-    //     // Get all adjacent vertices of the dequeued
-    //     // vertex s. If a adjacent has not been visited,
-    //     // then mark it visited and enqueue it
-    //     for (auto i = graph[s].begin(); i != graph[s].end(); ++i)
-    //     {
-    //         if (*i == target) {
-    //             return dist;
-    //         }
-    //         if (visited.find(*i) == visited.end())
-    //         {
-    //             visited.insert(*i);
-    //             queue.push(*i);
-    //         }
-    //     }
-    // }
-    // return INT_MAX;
     int level = 1;
     std::queue<std::string> queue;
     queue.push(src);

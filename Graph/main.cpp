@@ -26,9 +26,9 @@ int main() {
 	std::string bfstime = "BFS Runtime: " + std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count()) + " ms|";
 
 	if (iddfs.first == INT_MAX || bfs == INT_MAX) {
-		std::cout << "IDDFS Runtime: N/A|" << "BFS Runtime: N/A|" << "Distance: N/A|" << "Distance: N/A|" << "The inputted source or target topics do not exist as Wikipedia pages or are not categorized as an Animal related page.";
+		std::cout << "IDDFS Runtime: N/A|" << "BFS Runtime: N/A|" << "Distance: N/A|" << "Distance: N/A|" << "The inputted source or target topics do not exist as Wikipedia pages or are not categorized as an animal related page.";
 	}
-	else {
+	else{
 		std::cout << iddfstime << bfstime << "Distance: " << iddfs.first << " page(s)|Distance: " << bfs << " page(s)|" << node + " -> " << iddfs.second.substr(0, iddfs.second.size()-4);
 	}
 	return 0;
