@@ -111,6 +111,7 @@ class MyForm(wx.Panel):
         datastring = data[0] + " " + data[1]
         output, err = p.communicate(datastring.encode("utf-8"))
         result = output.decode("utf-8").split("|")
+        print(result)
         self.distanceLabel.SetLabel(result[3])
         self.IDDFSRuntime.SetLabel(result[0])
         self.BFSLabel.SetLabel(result[1])
