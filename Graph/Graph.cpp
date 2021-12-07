@@ -55,7 +55,7 @@ std::pair<int, std::string> Graph::IDDFS(std::string src, std::string target)
     // Repeatedly depth-limit search till the
     // maximum depth.
     std::string path = "";
-    for (int i = 0; i <= 1000; i++) {
+    for (int i = 0; i <= 10; i++) {
         int temp = i;
         if (DLS(src, target, temp, path) == true)
             return std::make_pair(i, path);
@@ -121,7 +121,7 @@ int Graph::BFS(std::string src, std::string target) {
             }
         }
         level++;
-        if(level > 1000)
+        if(level > 10)
             return INT_MAX;     
     }
     return INT_MAX;    
