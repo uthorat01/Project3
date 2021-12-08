@@ -19,7 +19,7 @@ public:
 
     void readInput();
 
-    std::map<std::string, std::list<std::string>> getGraph();
+    std::unordered_map<std::string, std::list<std::string>> getGraph();
 
     bool DLS(std::string src, std::string target, int limit, std::string &path);
 
