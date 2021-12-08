@@ -32,7 +32,7 @@ void Graph::readInput() {
 }
 
 //This method returns the graph variable of the Graph class
-std::map <std::string, std::list<std::string>> Graph::getGraph() {
+std::unordered_map <std::string, std::list<std::string>> Graph::getGraph() {
     return graph;
 }
 
