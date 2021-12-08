@@ -1,6 +1,6 @@
 #include <fstream>
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <chrono>
 #include <list>
 #include <queue>
@@ -13,7 +13,7 @@
 
 class Graph {
 private:
-    std::map<std::string, std::list<std::string>> graph;
+    std::unordered_map<std::string, std::list<std::string>> graph;
 public:
     Graph();
 
