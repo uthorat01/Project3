@@ -49,7 +49,7 @@ class MyForm(wx.Panel):
         #Creates description and sets it to wrap at a width of 350 pixels
         description = wx.StaticText(self, wx.ID_ANY, "Enter a source and target animal to" +
             " find the fewest number of links you have to click to get from the source animal's" + 
-            " Wikipedia page to the target animal's Wikipedia " + "and find the path between " +
+            " Wikipedia page to the target animal's Wikipedia " + "and find the shortest path between " +
             "their pages on Wikipedia.")
         description.Wrap(350);
 
@@ -69,7 +69,7 @@ class MyForm(wx.Panel):
         self.distanceLabel = wx.StaticText(self, wx.ID_ANY, 'Distance: ?')
         self.IDDFSRuntime = wx.StaticText(self, wx.ID_ANY, 'IDDFS Runtime: ?')
         self.BFSLabel = wx.StaticText(self, wx.ID_ANY, 'BFS Runtime: ?')
-        self.path = wx.StaticText(self, wx.ID_ANY, 'Path Between Source and Target Wikipedia Pages')
+        self.path = wx.StaticText(self, wx.ID_ANY, 'Shortest Path Between Source and Target Wikipedia Pages')
 
         #Creates sizers for each section to deal with layout management
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
