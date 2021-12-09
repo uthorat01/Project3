@@ -8,7 +8,6 @@ Takes in a file consisting of Wikipedia articles and appends a list of hyper lin
 import requests
 import re
 import csv
-import json
 from bs4 import BeautifulSoup
 
 '''
@@ -20,7 +19,7 @@ article = open(articlename, "r")
 wikipedia = article.readlines()
 
 # output CSV file name
-file = open("link.csv", "a")
+file = open("links.csv", "a")
 
 # regex to match urls: urls can only have letters, _'s, /'s, and :'s
 regex = re.compile("^[a-zA-Z/_:]*$");
@@ -53,7 +52,6 @@ for wiki in wikipedia:
     file.write("\n")
 
 # clean up
-article.close()
 file.close()
 
 
@@ -62,10 +60,11 @@ Filtering:
 '''
 print('filtering...', end='')
 
-# import filter
-filterfile = open("filter.json", "r")
-filter = json.load(filterfile)
-set_filter = set(filter['filter'])
+# import filter: the 'filter' consists of articles in the original inputted file
+set_filter = set()
+for wiki in wikipedia:
+    set_filter.add(wiki[:-2])
+article.close()
 
 # export to file:
 file = open("filtered.csv", "a")
@@ -99,7 +98,6 @@ with open("links.csv", newline='') as data:
 
 # clean up
 print("complete")
-filterfile.close()
 file.close()
 data.close()
 
